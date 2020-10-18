@@ -1,0 +1,12 @@
+<mapper namespace="com.risen.dao.UserDao">
+
+    <!--stementId 命令空间.id -->
+    <select id="selectList" resultType="com.risen.pojo.User">
+        select * from tb_user
+    </select>
+
+    <select id="selectOneByCondtion" resultType="com.risen.pojo.User" paramterType="com.risen.pojo.User">
+        select * from tb_user where id = #{id} and username=#{username}
+    </select>
+
+</mapper>

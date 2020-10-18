@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.risen.mapper.UserMapper">
+
+    <!--一对一的映射关系-->
+    <resultMap id="orderMap" type="com.risen.pojo.Order">
+        <result property="id" column="id"></result>
+        <result property="ordertime" column="ordertime"></result>
+        <result property="total" column="total" ></result>
+
+        <association property="user" javaType="com.risen.pojo.User">
+            <result property="id" column="uid"></result>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+    <!-- resultMap 手动将实体类属性与表字段建立映射关系-->
+    <select id="selectOrderAndUser" resultMap="orderMap">
+        select * from orders o,user u where o.uid = u.id
+    </select>
+
+
+    <!--多对多   所有用户 及用户角色-->
+    <resultMap id="userRoleMap" type="com.risen.pojo.User">
+        <result property="id" column="id"></result>
+        <result property="username" column="username"></result>
+        <collection property="roleList" ofType="com.risen.pojo.Role">
+            <result property="id" column="roleid"></result>
+            <result property="rolename" column="rolename"></result>
+        </collection>
+    </resultMap>
+    <select id="findUserAndRole" resultMap="userRoleMap">
+     select u.*,r.id roleid ,r.rolename rolename from user u LEFT JOIN user_role ur on u.id = ur.uid
+        LEFT JOIN role r on r.id = ur.rid
+    </select>
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--命名空间: 作用是 定位到那个那个接口下的sql语句
+                statementId: 接口类全限定名称+id
+                                -->
+<mapper namespace="com.risen.dao.UserDao">
+
+    <select id="selectAll" resultType="com.risen.pojo.User" >
+        select * from tb_user
+    </select>
+
+    <insert id="insertUser" parameterType="com.risen.pojo.User" >
+        insert into tb_user values(#{id},#{username})
+    </insert>
+
+    <update id="updateUser" parameterType="com.risen.pojo.User">
+        update tb_user set username = #{username} where id = #{id};
+    </update>
+
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete from tb_user where id = #{id}
+    </delete>
+
+    <!--动态sql 多条件查询-->
+    <select id="selectByCondition" parameterType="user" resultType="user">
+        select * from tb_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <!-- 动态sql 多值查询-->
+    <select id="selectByIds" parameterType="list" resultType="user">
+        select * from tb_user
+        <where>
+            <foreach collection="array" open="id in (" close=")" separator="," item="id">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,5 @@
+# Project exclude paths
+/custom_mybatis/target/
+/custom_mybatis_test/target/
+/mybatis_multtable/target/
+/mybatis_quick_start/target/
